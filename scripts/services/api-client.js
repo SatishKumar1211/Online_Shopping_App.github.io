@@ -3,7 +3,7 @@
 
 async function makeNetworkCall(){
     try{
-        const URL = 'https://raw.githubusercontent.com/lamba-himanshu/JSON/main/json.txt';
+        const URL = 'https://raw.githubusercontent.com/SatishKumar1211/food_app-json_file/main/food-app-json.txt';
         const response = await fetch(URL);
         const object = await response.json();
         return object;
