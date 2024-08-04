@@ -1,17 +1,30 @@
 //perform crud operation on product - create, read, update delete
-import Product from '../models/product.js';
-import makeNetworkCall from './api-client.js';
-const productOperations={
+import Product from "../models/product.js";
+import makeNetworkCall from "./api-client.js";
+
+ const productOperations= {
+    products:[],  //key:value
+    search(pizzaId){
+        const product = this.products.find(currentProduct => currentProduct.id ==pizzaId);
+        console.log('prduct found',product);
+        product.isAddedInCart = true;
+        console.log(this.products);
+        
+    },
+    getProductInCart(){
+        const productInBasket = this.products.filter(product => product.isAddedInCart==true);
+        return productInBasket;
+    },
     async loadProducts(){
-        const pizzas=await makeNetworkCall();
+        const pizzas = await makeNetworkCall();
         const pizzaArray= pizzas['Vegetarian'];
-        const productsArray= pizzaArray.map(pizza=>{
-            const currentPizza=new Product(pizza.id, pizza.name, pizza.menu_description, pizza.price,
-                pizza.assets.product_details_page[0].url);
+        const ProductsArray = pizzaArray.map(pizza =>{
+            const currentPizza =new Product(pizza.id ,pizza.name, pizza.menu_description, pizza.price, pizza.assets.product_details_page[0].url);
             return currentPizza;
-        })
-         console.log('Product array', productsArray);
-         return productsArray;
+        });
+        console.log('Product Array ', ProductsArray);
+        this.products = ProductsArray;
+        return ProductsArray;
     },
     sortProducts(){
 
@@ -19,5 +32,6 @@ const productOperations={
     searchProducts(){
 
     }
-}
+ }
+
 export default productOperations;
